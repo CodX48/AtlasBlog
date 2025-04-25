@@ -2,8 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 
 const UserSchema = new Schema({
-  FirstName: { type: String, required: true },
-  LastName: { type: String, required: true },
+  UserName: {type: String, required: true},
   Email: { type: String, required: true, unique: true },
   Password: { type: String, required: true },
   Posts: [{ type: Schema.Types.ObjectId, ref: "Blogs" }],

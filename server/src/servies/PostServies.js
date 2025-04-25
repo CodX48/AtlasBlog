@@ -20,9 +20,49 @@ const Post = async ({ PosterEmail, Content }) => {
     return { data: { Posts: posts }, status: 200 };
 };
 
-const GetPosts = async ({PosterEmail}) => {
-    const user = await User.findOne({ PosterEmail });
+const GetPosts = async ({ Email }) => {
+    const user = await User.findOne({ Email });
     console.log(user);
     return { data: { IserInfo: user }, status: 200 };
-}
-export { Post, GetPosts };
+};
+
+const likeBlog = async ({ blogId, Email }) => {
+    const blog = await Blogs.findById(blogId);
+    const user = await User.findOne({ Email }); 
+
+    if (!blog || !user) {
+        return { data: "bad", status: 400 };
+    }
+
+    const userIdStr = user._id.toString();
+    const index = blog.Likes.findIndex(id => id.toString() === userIdStr);
+
+    if (index !== -1) {
+        // User already liked — remove like
+        blog.Likes.splice(index, 1);
+    } else {
+        // User hasn't liked — add like
+        blog.Likes.push(user._id);
+    }
+
+    await blog.save();
+    return { data: "ok", status: 200 };
+};
+
+
+const CommentBlog = async ({ blogId, Email, comment }) => {
+    const blog = await Blogs.findById(blogId);
+    const user = await User.findOne({ Email });
+
+    if (!user || !blog) {
+        return { data: "Bad", status: 400 };
+    };
+
+    blog.Comments.push({
+        User: user.UserName,
+        Conmment: comment
+    });
+    await blog.save();
+    return { data: "comment is been added", status: 200 };
+};
+export { Post, GetPosts, likeBlog, CommentBlog };
