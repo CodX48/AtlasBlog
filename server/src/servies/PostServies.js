@@ -1,6 +1,7 @@
 import { Blogs } from "../Model/PostsModel.js";
 import { User } from "../Model/UserModel.js";
 
+//create a post 
 const Post = async ({ PosterEmail, Content }) => {
     const user = await User.findOne({ "Email": PosterEmail });
     if (!user) {
@@ -19,12 +20,33 @@ const Post = async ({ PosterEmail, Content }) => {
     const posts = await Blogs.find({ Poster: user._id }).populate('Poster', 'FirstName LastName Email');
     return { data: { Posts: posts }, status: 200 };
 };
+//get the post for home page
+const GetPosts = async ({ UserName }) => {
+  try {
+    const user = await User.findOne({ UserName })
+      .populate({
+        path: "Friends",
+        populate: {
+          path: "Posts",
+          model: "Blogs", // make sure this matches your blog model name
+        },
+      });
 
-const GetPosts = async ({ Email }) => {
-    const user = await User.findOne({ Email });
-    console.log(user);
-    return { data: { IserInfo: user }, status: 200 };
+    if (!user) {
+      return { data: "Bad", status: 400 };
+    }
+    const friendsPosts = user.Friends.map(friend => ({
+    FriendName: friend.UserName,
+    Posts: friend.Posts,
+    }));
+
+    return { data: { FriendsPosts: friendsPosts }, status: 200 };
+  } catch (error) {
+    console.error(error);
+    return { data: "Internal Server Error", status: 500 };
+  }
 };
+
 
 const likeBlog = async ({ blogId, Email }) => {
     const blog = await Blogs.findById(blogId);
@@ -38,10 +60,8 @@ const likeBlog = async ({ blogId, Email }) => {
     const index = blog.Likes.findIndex(id => id.toString() === userIdStr);
 
     if (index !== -1) {
-        // User already liked — remove like
         blog.Likes.splice(index, 1);
     } else {
-        // User hasn't liked — add like
         blog.Likes.push(user._id);
     }
 
@@ -65,4 +85,8 @@ const CommentBlog = async ({ blogId, Email, comment }) => {
     await blog.save();
     return { data: "comment is been added", status: 200 };
 };
-export { Post, GetPosts, likeBlog, CommentBlog };
+
+
+
+
+export { Post, GetPosts, likeBlog, CommentBlog};

@@ -18,7 +18,6 @@ export const register = async ({ UserName, Email, Password }) => {
         Email,
         Password: hashedpass,
     });
-
     await user.save();
 
     return { data: {tokin: generateJWT({ UserName , Email })}, status: 200 };
@@ -39,13 +38,13 @@ export const login = async ({ Email, Password }) => {
     return { data: "Incorrect Email or password", status: 400 };
 };
 //the add fiend btn will search on the db and push to the user friend requist list my id then if he want he can add me which will take it from the this list and push it to my 
-export const AddFriendRequist = async ({ UserName, MyEmail }) => {
-    if (FriendEmail === MyEmail) {
+export const AddFriendRequist = async ({ FriendUserName, MyUserName }) => {
+    if (FriendUserName === MyUserName) {
         return { data: "You can not add yourself", status: 400 };
     };
 
-    const FrinedAcc = await User.findOne({ UserName });
-    const MyAcc = await User.findOne({ "Email": MyEmail });
+    const FrinedAcc = await User.findOne({ "UserName": FriendUserName });
+    const MyAcc = await User.findOne({ "UserName": MyUserName });
     
     if (!FrinedAcc || !MyAcc) {
         return { data: "Something is wrong", status: 400 };
@@ -53,5 +52,25 @@ export const AddFriendRequist = async ({ UserName, MyEmail }) => {
     MyAcc.Friends.push(FrinedAcc);
     await MyAcc.save();
     return { data: "Friend has been added", status: 200 };
+};
 
+
+export const GetUser = async ({ username }) => {
+    const user = await User.findOne({ "UserName": username });
+    if (!user) {
+        return { data: "User does not exist", status: 400 };
+    };
+    
+    return { data: user, status: 200 };
+};
+
+export const GetAllUsers = async() => {
+    const users = await User.find();
+
+    const UserNames = users.map(user => ({
+        id:user._id,
+        UserName: user.UserName
+    }));
+
+    return { data: UserNames, status: 200 };
 }

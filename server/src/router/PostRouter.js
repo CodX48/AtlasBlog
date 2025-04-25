@@ -17,12 +17,12 @@ router.post('/post', ValidateJWT, async (req, res) => {
     }
 });
 
-// Get posts for a user
+// Get posts for a user for (home page)
 router.get('/', ValidateJWT, async (req, res) => {
     try {
-        const Email = req.user.Email;
-        console.log(Email);
-        const respo = await GetPosts({ Email });
+        const UserName = req.user.UserName;
+        console.log(UserName);
+        const respo = await GetPosts({ UserName });
         res.status(respo.status).send(respo.data);
     } catch (error) {
         console.error(error);
@@ -41,10 +41,10 @@ router.post('/like', ValidateJWT ,async (req, res) => {
         res.status(500).send({ error: "Server error while fetching posts" });
     }
 });
-router.post("/comment",ValidateJWT ,async (req, res) => {
+router.post("/comment", ValidateJWT, async (req, res) => {
     try {
         const { blogId, comment } = req.body;
-        const Email  = req.user.Email;
+        const Email = req.user.Email;
         console.log(Email)
         const respo = await CommentBlog({ blogId, Email, comment });
         res.status(respo.status).send(respo.data);
@@ -53,6 +53,7 @@ router.post("/comment",ValidateJWT ,async (req, res) => {
         res.status(500).send({ error: "Server error while fetching posts" });
     
     }
-})
+});
+
 
 export default router;
