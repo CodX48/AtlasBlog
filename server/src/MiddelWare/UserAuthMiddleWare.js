@@ -18,19 +18,24 @@ const ValidateJWT = async (req, res, next) => {
         }
 
         const payload = jwt.verify(Token, JWT_SECRET);
+       // console.log(payload)
         if (!payload.Email) {
             res.status(401).json({ error: "Invalid token payload" });
             return;
         }
 
-        const user = await User.findOne({ Email: payload.Email });
+        const user = await User.findOne({ "UserName": payload.UserName });
+        console.log(user);
         if (!user) {
             res.status(404).json({ error: "User not found" });
             return;
         }
+                
+        req.user = {
+            UserName: user.UserName,
+            Email: user.Email
+        };
 
-        req.user = user;
-       
         next();
     } catch (err) {
         if (err.name === "TokenExpiredError") {

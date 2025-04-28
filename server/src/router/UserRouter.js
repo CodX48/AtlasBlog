@@ -32,4 +32,11 @@ router.get('/', ValidateJWT, async (req, res) => {
     const respo = await GetAllUsers();
     res.status(respo.status).send(respo.data);
 });
+router.get('/ver', ValidateJWT, async (req, res) => {
+    const username = req.user.UserName;
+    //console.log(username)
+    const respo = await GetUser({ username });
+    res.status(respo.status).send(respo.data);
+}); 
+
 export default router;

@@ -31,7 +31,7 @@ const searchbar = () => {
         fetchUsers();
     });
 
-    // لما تكتب حاجة جديدة، تبدأ الفلترة
+    
     SearchBar.addEventListener("input", () => {
         function FilterdUsers() {
             const existingList = document.getElementById('user-list');
@@ -69,7 +69,7 @@ const searchbar = () => {
 
 const ProfileIcon = () => {
     const Profile = document.createElement("div");
-    Profile.textContent = "P"; // مبدئيًا أول حرف
+    Profile.textContent = "P"; 
     Profile.style.width = "40px";
     Profile.style.height = "40px";
     Profile.style.borderRadius = "50%";

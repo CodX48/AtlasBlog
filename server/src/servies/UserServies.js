@@ -10,7 +10,7 @@ export const register = async ({ UserName, Email, Password }) => {
 
     const findUser = await User.findOne({ Email });
     if (findUser) {
-        return { data: "User is already exist", status: 400 };
+        return { data: {mess: "User is already exist"}, status: 400 };
     }
     const hashedpass = await bcrypt.hash(Password, 10);
     const user = new User({
@@ -20,7 +20,7 @@ export const register = async ({ UserName, Email, Password }) => {
     });
     await user.save();
 
-    return { data: {tokin: generateJWT({ UserName , Email })}, status: 200 };
+    return { data: {tokin: generateJWT({ UserName , Email }), UserName: UserName}, status: 200 };
 };
 
 export const login = async ({ Email, Password }) => {
@@ -32,7 +32,7 @@ export const login = async ({ Email, Password }) => {
 
     const hashedpass = await bcrypt.compare(Password, findUser.Password);
     if (hashedpass && findUser !== null) {
-        return { data: {tokin:  generateJWT({Email,UserName: findUser.UserName}) }, status: 200 };
+        return { data: {tokin:  generateJWT({Email,UserName: findUser.UserName}) , UserName:findUser.UserName}, status: 200 };
     };
 
     return { data: "Incorrect Email or password", status: 400 };
