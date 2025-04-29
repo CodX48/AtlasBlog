@@ -24,13 +24,7 @@ const Post = async ({ PosterEmail, Content }) => {
 const GetPosts = async ({ UserName }) => {
   try {
     const user = await User.findOne({ UserName })
-      .populate({
-        path: "Friends",
-        populate: {
-          path: "Posts",
-          model: "Blogs", // make sure this matches your blog model name
-        },
-      });
+      .populate({ path: "Friends", populate: { path: "Posts", model: "Blogs"}});
 
     if (!user) {
       return { data: "Bad", status: 400 };

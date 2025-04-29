@@ -53,16 +53,23 @@ export const AddFriendRequist = async ({ FriendUserName, MyUserName }) => {
     await MyAcc.save();
     return { data: "Friend has been added", status: 200 };
 };
-
-
 export const GetUser = async ({ username }) => {
-    const user = await User.findOne({ "UserName": username });
+    const user = await User.findOne({ UserName: username })
+        .select('-Password -_id')
+        .populate({
+            path: "Posts",
+            model: "Blogs",
+            select: '-_id -Poster'
+        })
+
     if (!user) {
         return { data: "User does not exist", status: 400 };
-    };
-    
+    }
+
     return { data: user, status: 200 };
 };
+
+
 
 export const GetAllUsers = async() => {
     const users = await User.find();
