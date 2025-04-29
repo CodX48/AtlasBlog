@@ -1,9 +1,9 @@
-export let UserName; 
+export let UserInfo; 
 
 export const addtoken = (token) => {
   localStorage.setItem('authorization', `token ${token}`);
 };
 
-export const userinfo = ({username}) => {
-  UserName = username;
+export const userinfo = (user) => {
+  UserInfo = user;
 }

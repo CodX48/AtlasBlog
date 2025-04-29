@@ -1,4 +1,7 @@
-import { GetAllUsers } from "../APIs/ApisServies.js";
+import { GetAllUsers, GetBlogs } from "../APIs/ApisServies.js";
+import { UserInfo } from '../User.js'
+import { MyProfile } from './pages/MyProfile.js';
+import { GetFriendProfile } from "../APIs/ApisServies.js";
 let Users = [];
 let Filterd_Users;
 
@@ -69,6 +72,17 @@ const searchbar = () => {
 
 const ProfileIcon = (UserName) => {
     const Profile = document.createElement("div");
+    Profile.setAttribute('username', UserName);
+    Profile.addEventListener('click', async () => {
+        if (Profile.getAttribute('username') === UserInfo.UserName) {
+            //return a page with my profile
+            MyProfile()
+        } else {
+            console.log("friend profile")
+            const FriendPage = await GetFriendProfile({ UserName: Profile.getAttribute('username') });
+            console.log(FriendPage);
+        }
+    });
     Profile.textContent = UserName.split('')[0]; 
     Profile.style.width = "40px";
     Profile.style.height = "40px";
@@ -109,8 +123,56 @@ export const NavigationBar = (UserName) => {
     return nav;
 };
 
-export const HomePage = (user) => {
+export const blogs = async ({ UserName }) => {
+    const BlogsContainer = document.createElement('div');
+    const blogs = await GetBlogs({ UserName });
+   
+    const ul = document.createElement('ul');
+
+    blogs.forEach(ele => {
+        
+        ele.Posts.forEach(post => {
+
+        const li = document.createElement('li');
+        const UserBlogInfo = document.createElement('div');
+        const username = document.createElement('p');
+        username.textContent = UserName;
+
+        UserBlogInfo.append(ProfileIcon(ele.FriendName));
+        UserBlogInfo.append(ele.FriendName);
+        li.append(UserBlogInfo);
+
+        const posts = document.createElement('div');
+            const postDiv = document.createElement('div');
+            postDiv.classList.add('post');
+
+            const content = document.createElement('p');
+            content.textContent = post.Content;
+
+            // Optional: Add likes, comments, etc.
+            const likes = document.createElement('p');
+            likes.textContent = `Likes: ${post.Likes.length}`;
+
+            const comments = document.createElement('p');
+            comments.textContent = `Comments: ${post.Comments.length}`;
+
+            postDiv.append(content, likes, comments);
+            posts.append(postDiv);
+            li.append(posts);
+            ul.append(li);
+        });
+    });
+
+    BlogsContainer.append(ul);
+    return BlogsContainer;
+};
+export const HomePage = async (user) => {
     const home = document.createElement('div');
     home.append(NavigationBar(user.UserName));
+    
+    const blogsDOM = await blogs({ UserName: user.UserName });
+    home.append(blogsDOM);
+    
     return home;
 };
+

@@ -8,7 +8,9 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: 'http://127.0.0.1:5500'
+}));
 mongoose.connect("mongodb://localhost:27017/Blog")
   .then(async () => {
     console.log("Database is connected");

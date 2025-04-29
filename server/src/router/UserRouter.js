@@ -41,6 +41,7 @@ router.get('/', ValidateJWT, async (req, res) => {
 // Get a specific user's profile by username (dynamic route)
 router.get('/:username', ValidateJWT, async (req, res) => {
     const username = req.params.username;
+    console.log(username)
     const respo = await GetUser({ username });
     res.status(respo.status).send(respo.data);
 });

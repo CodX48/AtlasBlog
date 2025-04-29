@@ -53,6 +53,7 @@ export const AddFriendRequist = async ({ FriendUserName, MyUserName }) => {
     await MyAcc.save();
     return { data: "Friend has been added", status: 200 };
 };
+
 export const GetUser = async ({ username }) => {
     const user = await User.findOne({ UserName: username })
         .select('-Password -_id')
