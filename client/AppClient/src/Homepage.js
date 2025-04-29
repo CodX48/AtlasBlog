@@ -67,9 +67,9 @@ const searchbar = () => {
     return SearchBar;
 };
 
-const ProfileIcon = () => {
+const ProfileIcon = (UserName) => {
     const Profile = document.createElement("div");
-    Profile.textContent = "P"; 
+    Profile.textContent = UserName.split('')[0]; 
     Profile.style.width = "40px";
     Profile.style.height = "40px";
     Profile.style.borderRadius = "50%";
@@ -81,7 +81,7 @@ const ProfileIcon = () => {
     return Profile;
 };
 
-export const NavigationBar = () => {
+export const NavigationBar = (UserName) => {
     const nav = document.createElement("nav");
     nav.style.display = "flex";
     nav.style.justifyContent = "space-between";
@@ -100,11 +100,17 @@ export const NavigationBar = () => {
     centerSection.appendChild(searchbar());
 
     const rightSection = document.createElement("div");
-    rightSection.appendChild(ProfileIcon());
+    rightSection.appendChild(ProfileIcon(UserName));
 
     nav.appendChild(leftSection);
     nav.appendChild(centerSection);
     nav.appendChild(rightSection);
 
     return nav;
+};
+
+export const HomePage = (user) => {
+    const home = document.createElement('div');
+    home.append(NavigationBar(user.UserName));
+    return home;
 };

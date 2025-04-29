@@ -1,5 +1,9 @@
 // routes.js:
-export const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImNpZHgyMDdAZ21haWwuY29tIiwiVXNlck5hbWUiOiJNb3N0YWZhMTIzIyIsImlhdCI6MTc0NTY3MTIyMywiZXhwIjoxNzQ1NzU3NjIzfQ.4NOvlcDsDlwRu_xic-tJ1vKMMLxpXcFbMg_2ur80GII"
+export let token;
+
+export function setToken(_token) {
+    token = _token;
+}
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -10,6 +14,7 @@ export const USERS_LOGIN = `${USERS_BASE}/login`;               // POST - Login 
 export const USERS_ADD_FRIEND = `${USERS_BASE}/addfriend`;      // POST - Send friend request
 export const USERS_GET_PROFILE = `${USERS_BASE}/:username`;     // GET  - Get a user's profile
 export const USERS_GET_ALL = `${USERS_BASE}`;                   // GET  - Get all users
+export const VERIFY_USER = `${USERS_BASE}/ver`;                 // GET  - Get the verify from token
 
 export const BLOGS_BASE = `${BASE_URL}/blogs`;
 
