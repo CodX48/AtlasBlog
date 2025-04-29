@@ -2,6 +2,7 @@ import { GetAllUsers, GetBlogs } from "../APIs/ApisServies.js";
 import { UserInfo } from '../User.js'
 import { MyProfile } from './pages/MyProfile.js';
 import { GetFriendProfile } from "../APIs/ApisServies.js";
+import { likeBlog } from "../APIs/ApisServies.js";
 let Users = [];
 let Filterd_Users;
 
@@ -9,9 +10,7 @@ const logo = () => {
     const LogoElement = document.createElement("div");
     LogoElement.className = 'logo';
     LogoElement.textContent = "AtlasBlog";
-    // LogoElement.style.fontWeight = "bold";
-    // LogoElement.style.fontSize = "24px";
-     return LogoElement;
+    return LogoElement;
 };
 
 const searchbar = () => {
@@ -19,10 +18,7 @@ const searchbar = () => {
     SearchBar.className = 'search-bar';
     SearchBar.name = "SearchInput";
     SearchBar.placeholder = "Search";
-    // SearchBar.style.padding = "8px";
-    // SearchBar.style.borderRadius = "5px";
-    // SearchBar.style.border = "1px solid #ccc";
-
+   
     SearchBar.addEventListener("click", () => {
         async function fetchUsers() {
             try {
@@ -36,16 +32,16 @@ const searchbar = () => {
         fetchUsers();
     });
 
-    
     SearchBar.addEventListener("input", () => {
         function FilterdUsers() {
-            const existingList = document.getElementById('user-list');
+            const existingList = document.getElementById('user_list');
             if (existingList) {
                 existingList.remove(); 
             }
 
             const userList = document.createElement('ul');
-            userList.id = "user-list"; 
+            userList.className = "user-list";
+            userList.id = "user_list"; 
 
             try {
                 const filtered = Users.filter((user) => {
@@ -64,7 +60,7 @@ const searchbar = () => {
                 console.error("Error: ", error);
             }
 
-            document.getElementById('SearchSection').after(userList);
+            document.getElementById('SearchSection').append(userList);
         }
         FilterdUsers();
     });
@@ -79,7 +75,8 @@ const ProfileIcon = (UserName) => {
     Profile.addEventListener('click', async () => {
         if (Profile.getAttribute('username') === UserInfo.UserName) {
             //return a page with my profile
-            MyProfile()
+            document.getElementById('home_page').remove();
+            document.body.prepend(MyProfile()); 
         } else {
             console.log("friend profile")
             const FriendPage = await GetFriendProfile({ UserName: Profile.getAttribute('username') });
@@ -111,14 +108,15 @@ export const blogs = async ({ UserName }) => {
     const BlogsContainer = document.createElement('div');
     BlogsContainer.className = 'blogs-container';
     const blogs = await GetBlogs({ UserName });
-   
+    console.log(blogs);
     const ul = document.createElement('ul');
 
     blogs.forEach(ele => {
         
         ele.Posts.forEach(post => {
 
-        const li = document.createElement('li');
+            const li = document.createElement('li');
+            li.setAttribute('id', post._id);
         const UserBlogInfo = document.createElement('div');
         UserBlogInfo.className = 'user-blog-info'
         const username = document.createElement('p');
@@ -140,11 +138,22 @@ export const blogs = async ({ UserName }) => {
             const likes = document.createElement('p');
             likes.textContent = `${post.Likes.length} Likes`;
 
+            likes.addEventListener('click', async () => {
+                const PostId = li.getAttribute('id');
+                const likesnum = Number(likes.textContent.split(' ')[0]);
+                const data = await likeBlog({ PostId });
+                likes.textContent = `${likesnum + data.res} Likes`;
+            })
+
             const comments = document.createElement('p');
             comments.textContent = `${post.Comments.length} Comments`;
             const reacts = document.createElement('div');
+
+            const save = document.createElement('p');
+            save.textContent = `${post.Comments.length} save`;
+            
             reacts.className = 'reacts';
-            reacts.append(likes, comments);
+            reacts.append(likes, comments, save);
 
             postDiv.append(content,reacts);
             posts.append(postDiv);
@@ -156,13 +165,37 @@ export const blogs = async ({ UserName }) => {
     BlogsContainer.append(ul);
     return BlogsContainer;
 };
+
+export const FriendsList = () => {
+    const UsersList = document.createElement('ul');
+    UsersList.className = "Friends-List"
+    const MyFriends = UserInfo.Friends;
+    MyFriends.forEach(friend => {
+        const user = document.createElement('li');
+        const p = document.createElement('p');
+        p.textContent = friend.UserName;
+        user.append(ProfileIcon(friend.UserName));
+        user.append(p);
+        user.setAttribute('Username', friend.UserName);
+        UsersList.append(user);
+    });
+    return UsersList;
+}
+
+
 export const HomePage = async (user) => {
     const home = document.createElement('div');
     home.className = "home-page";
+    home.id = "home_page";
     home.append(NavigationBar(user.UserName));
-    
     const blogsDOM = await blogs({ UserName: user.UserName });
-    home.append(blogsDOM);
+    const maincontent = document.createElement('div');
+    maincontent.className = 'main-content';
+    maincontent.id = 'main_content';
+    maincontent.append(FriendsList());
+    maincontent.append(blogsDOM)
+
+    home.append(maincontent);
     return home;
 };
 

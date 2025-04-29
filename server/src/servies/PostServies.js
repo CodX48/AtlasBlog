@@ -54,13 +54,15 @@ const likeBlog = async ({ blogId, Email }) => {
     const index = blog.Likes.findIndex(id => id.toString() === userIdStr);
 
     if (index !== -1) {
-        blog.Likes.splice(index, 1);
+      blog.Likes.splice(index, 1);
+      await blog.save();
+      return { data: { res: -1 }, status: 200 };
     } else {
         blog.Likes.push(user._id);
     }
 
     await blog.save();
-    return { data: "ok", status: 200 };
+  return { data: { res: 1 }, status: 200 };
 };
 
 

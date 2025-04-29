@@ -1,4 +1,4 @@
-import { USERS_GET_ALL, token, USERS_REGISTER, VERIFY_USER, BLOGS_GET_FEED, USERS_GET_PROFILE } from "./BasedApis.js";
+import { USERS_GET_ALL, token, USERS_REGISTER, VERIFY_USER, BLOGS_GET_FEED, USERS_GET_PROFILE, BLOGS_LIKE } from "./BasedApis.js";
 
 export const GetAllUsers = async () => {
     try {
@@ -47,6 +47,7 @@ export const verifyUser = async ({ token }) => {
             }
         });
         const data = await res.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error(error);
@@ -63,7 +64,7 @@ export const GetBlogs = async ({ UserName }) => {
             }
         });
         const data = await res.json();
-        
+        console.log(data.FriendsPosts)
         return data.FriendsPosts;
     } catch (error) {
         console.error(error);
@@ -85,4 +86,23 @@ export const GetFriendProfile = async ({ UserName }) => {
         console.error(error);
     }
 };
+
+export const likeBlog = async ({ PostId }) =>{
+    try {
+        const res = await fetch(BLOGS_LIKE, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${token}`
+            },
+            body: JSON.stringify({
+                "blogId": `${PostId}`
+            })
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error)
+    }
+}
 

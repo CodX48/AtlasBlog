@@ -23,6 +23,7 @@ body{
     font-size: 25px;
 }
 #SearchSection{
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,12 +45,37 @@ body{
     outline: none;
     border:1px solid rgb(186, 186, 186);
     border-radius: 5px;
-};
+}
+
+.user-list{
+    z-index: 1;
+    padding: 7px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin: 0;
+    border-right: 1px  solid rgb(186, 186, 186);
+    border-left: 1px  solid rgb(186, 186, 186);
+    border-bottom: 1px  solid rgb(186, 186, 186);
+    position: absolute;
+    left: -11px;
+    top: 31px;
+    background-color: white;
+}
+.user-list li{
+    width: 100%;
+    list-style: none;
+    font-size: 20px;
+    margin: 10px 0px;
+    cursor: pointer;
+}
+
 .profile-icon{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
     padding: 10px;
 }
 
@@ -57,22 +83,63 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     padding: 5px;
     font-size: 20px;
     background:rgb(230, 230, 230);
     border-radius: 50%;
     cursor: pointer;
 }
+.main-content{
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.Friends-List{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 28%;
+    background-color: rgb(249, 249, 249);
+    padding: 0px 10px;
+    height: 600px;
+}
+.Friends-List li{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.Friends-List li .profile-icon{
+   height: 40px;
+}
+
+.Friends-List li .profile-icon p{
+    width: 25px;
+    height: 25px;
+}
+.Friends-List li:hover{
+background-color: rgb(230, 230, 230);
+}
+.Friends-List li p{
+    font-size: 18px;
+    padding: 10px;
+}
 .blogs-container{
-    margin-top: 50px;
     width: 100%;
 }
 .blogs-container ul {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap:50px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 50px;
 }
 .blogs-container ul li{
     list-style: none;
@@ -91,18 +158,21 @@ gap:50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    
 }
 .post-content{
     font-size: 20px;
 }
 .reacts{
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap:20px;
 }
 
 .reacts *{
+    width: 100%;
     cursor: pointer;
     background: rgb(230, 230, 230);
     padding: 10px 13px;

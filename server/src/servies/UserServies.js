@@ -52,26 +52,31 @@ export const AddFriendRequist = async ({ FriendUserName, MyUserName }) => {
     MyAcc.Friends.push(FrinedAcc);
     await MyAcc.save();
     return { data: "Friend has been added", status: 200 };
-};
+};export const GetUser = async ({ username }) => {
+    try {
+        const user = await User.findOne({ UserName: username })
+            .select('-Password -_id')
+            .populate({
+                path: "Posts",
+                model: "Blogs",
+                select: '-_id -Poster'
+            })
+            .populate({
+                path: "Friends", 
+                model: "Users",
+                select: 'UserName -_id'
+            });
 
-export const GetUser = async ({ username }) => {
-    const user = await User.findOne({ UserName: username })
-        .select('-Password -_id')
-        .populate({
-            path: "Posts",
-            model: "Blogs",
-            select: '-_id -Poster'
-        })
+        if (!user) {
+            return { data: "User does not exist", status: 400 };
+        }
 
-    if (!user) {
-        return { data: "User does not exist", status: 400 };
+        return { data: user, status: 200 };
+    } catch (error) {
+        console.error("Error in GetUser:", error);
+        return { data: "Something went wrong", status: 500 };
     }
-
-    return { data: user, status: 200 };
 };
-
-
-
 export const GetAllUsers = async() => {
     const users = await User.find();
 
