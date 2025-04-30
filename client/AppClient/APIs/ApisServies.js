@@ -1,4 +1,4 @@
-import { USERS_GET_ALL, token, USERS_REGISTER, VERIFY_USER, BLOGS_GET_FEED, USERS_GET_PROFILE, BLOGS_LIKE } from "./BasedApis.js";
+import { USERS_GET_ALL, token, USERS_REGISTER, VERIFY_USER, BLOGS_GET_FEED, USERS_GET_PROFILE, BLOGS_LIKE, USERS_LOGIN } from "./BasedApis.js";
 
 export const GetAllUsers = async () => {
     try {
@@ -36,6 +36,25 @@ export const register = async ({ UserName, Email, Password }) => {
         console.error(error);
     }
 };
+
+export const login = async ({ Email, Password }) =>{
+    try {
+        const res = await fetch(USERS_LOGIN, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Email,
+                Password
+            })
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 export const verifyUser = async ({ token }) => {
     try {

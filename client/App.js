@@ -8,10 +8,10 @@ import { userinfo } from "./AppClient/User.js";
   if (authHeader) {
     const user = await verifyUser({ token: authHeader });
     setToken(authHeader);
-    //console.log(authHeader);
+    //console.log(authHeader);x
     userinfo(user);
     //console.log(user);
     document.body.prepend(await HomePage(user));
   } else {
-    document.body.prepend(RegisterSide());
-  }
+    document.body.prepend(RegisterSide()); 
+};
