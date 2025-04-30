@@ -74,7 +74,6 @@ const ProfileIcon = (UserName) => {
     Profile.setAttribute('username', UserName);
     Profile.addEventListener('click', async () => {
         if (Profile.getAttribute('username') === UserInfo.UserName) {
-            //return a page with my profile
             document.getElementById('home_page').remove();
             document.body.prepend(MyProfile()); 
         } else {
@@ -180,6 +179,32 @@ export const FriendsList = () => {
         UsersList.append(user);
     });
     return UsersList;
+};
+
+const PostBlog = () => {
+    const PostBlogSection = document.createElement('form');
+    PostBlogSection.className = "feeds-from"
+    const UpperSection = document.createElement('div');
+    UpperSection.className = 'feeds-upper-section'
+    const profilePic = ProfileIcon(UserInfo.UserName);
+    const PostTextArea = document.createElement('textarea');
+    UpperSection.append(profilePic);
+    UpperSection.append(PostTextArea);
+    const btnCont = document.createElement('div');
+    btnCont.style.width = '100%'
+    btnCont.style.paddingRight = '50px';
+    btnCont.style.display = 'flex';
+    btnCont.style.justifyContent = 'end'
+    btnCont.style.alignItems = 'end'
+    const sendBtn = document.createElement('button');
+    // sendBtn.style.padding = '10px 13px'
+    // sendBtn.style.fontSize = '17px'
+    btnCont.append(sendBtn);
+    sendBtn.textContent = 'Post';
+    PostBlogSection.append(UpperSection);
+    PostBlogSection.append(btnCont);
+
+    return PostBlogSection;
 }
 
 
@@ -188,12 +213,16 @@ export const HomePage = async (user) => {
     home.className = "home-page";
     home.id = "home_page";
     home.append(NavigationBar(user.UserName));
+    const blogsSection = document.createElement('div');
+    blogsSection.style.width = "100%"
     const blogsDOM = await blogs({ UserName: user.UserName });
+    blogsSection.append(PostBlog());
+    blogsSection.append(blogsDOM);
     const maincontent = document.createElement('div');
     maincontent.className = 'main-content';
     maincontent.id = 'main_content';
     maincontent.append(FriendsList());
-    maincontent.append(blogsDOM)
+    maincontent.append(blogsSection)
 
     home.append(maincontent);
     return home;
