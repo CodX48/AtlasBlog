@@ -3,12 +3,13 @@
     margin: 0;
     box-sizing: border-box;
 }
+/* 
 body{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
+} */
 
 .register-container{
 flex-direction: column;

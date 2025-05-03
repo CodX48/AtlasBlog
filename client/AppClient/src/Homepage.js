@@ -170,59 +170,94 @@ export const FriendsList = () => {
     const UsersList = document.createElement('ul');
     UsersList.className = "Friends-List"
     const MyFriends = UserInfo.Friends;
+
+    if (!MyFriends.length === 0) {
     MyFriends.forEach(friend => {
-        const user = document.createElement('li');
-        const p = document.createElement('p');
-        p.textContent = friend.UserName;
-        user.append(ProfileIcon(friend.UserName));
-        user.append(p);
-        user.setAttribute('Username', friend.UserName);
-        UsersList.append(user);
-    });
+            const user = document.createElement('li');
+            const p = document.createElement('p');
+            p.textContent = friend.UserName;
+            user.append(ProfileIcon(friend.UserName));
+            user.append(p);
+            user.setAttribute('Username', friend.UserName);
+            UsersList.append(user);
+        });
+        return UsersList;
+    }
+
+    const NoFriendsMess = document.createElement('p');
+    NoFriendsMess.textContent = "You should Add Friends";
+    UsersList.append(NoFriendsMess)
     return UsersList;
 };
 
 const PostBlog = () => {
-    const PostBlogSection = document.createElement('form');
-    PostBlogSection.className = "feeds-from"
-    const UpperSection = document.createElement('div');
-    UpperSection.className = 'feeds-upper-section'
-    const profilePic = ProfileIcon(UserInfo.UserName);
-    const PostTextArea = document.createElement('textarea');
-    UpperSection.append(profilePic);
-    UpperSection.append(PostTextArea);
-    const btnCont = document.createElement('div');
-    btnCont.style.width = '100%'
-    btnCont.style.paddingRight = '50px';
-    btnCont.style.display = 'flex';
-    btnCont.style.justifyContent = 'end'
-    btnCont.style.alignItems = 'end'
-    const sendBtn = document.createElement('button');
-    // sendBtn.style.padding = '10px 13px'
-    // sendBtn.style.fontSize = '17px'
-    btnCont.append(sendBtn);
-    sendBtn.textContent = 'Post';
-    PostBlogSection.append(UpperSection);
-    PostBlogSection.append(btnCont);
-
+    const PostBlogSection = document.createElement('button');
+    PostBlogSection.className = 'PostBtn'
+    PostBlogSection.textContent = 'Post';
+    PostBlogSection.addEventListener('click', () => {
+        
+    })
     return PostBlogSection;
+};
+const userhomeinfo = () => {
+    const username = document.createElement('p');
+    username.className = 'userhomeinfo-username';
+    username.textContent = UserInfo.UserName;
+
+    const moreinfo = document.createElement('div');
+    moreinfo.className = 'userhomeinfo-moreinfo';
+
+    const Fiendsnum = document.createElement('p');
+    Fiendsnum.className = 'userhomeinfo-friends';
+    Fiendsnum.textContent = `${UserInfo.Friends.length} Friends`;
+
+    const Postsnum = document.createElement('p');
+    Postsnum.className = 'userhomeinfo-posts';
+    Postsnum.textContent = `${UserInfo.Posts.length} Posts`;
+
+    const Saved = document.createElement('p');
+    Saved.className = 'userhomeinfo-saved';
+    Saved.textContent = `${UserInfo.Posts.length} Saved`;
+
+    moreinfo.append(Fiendsnum, Postsnum, Saved);
+
+    const UserHomeInfoCont = document.createElement('div');
+    UserHomeInfoCont.className = 'userhomeinfo-container';
+    UserHomeInfoCont.append(ProfileIcon(UserInfo.UserName), username, moreinfo);
+
+    return UserHomeInfoCont;
 }
 
-
 export const HomePage = async (user) => {
+    //console.log(user)
     const home = document.createElement('div');
     home.className = "home-page";
     home.id = "home_page";
     home.append(NavigationBar(user.UserName));
     const blogsSection = document.createElement('div');
     blogsSection.style.width = "100%"
+    blogsSection.style.display = "flex"
+    blogsSection.style.justifyContent = "center"
+    blogsSection.style.alignItems = "center"
+    
     const blogsDOM = await blogs({ UserName: user.UserName });
-    blogsSection.append(PostBlog());
+    //blogsSection.append(PostBlog());
     blogsSection.append(blogsDOM);
     const maincontent = document.createElement('div');
     maincontent.className = 'main-content';
     maincontent.id = 'main_content';
-    maincontent.append(FriendsList());
+    
+    //friends list cont
+    const LeftMainCont = document.createElement('div');
+    LeftMainCont.style.width = '400px';
+    const label = document.createElement('label');
+    label.textContent = 'My Friends';
+    LeftMainCont.append(userhomeinfo());
+    LeftMainCont.append(label);
+    LeftMainCont.append(FriendsList());
+    LeftMainCont.append(PostBlog())
+    
+    maincontent.append(LeftMainCont);   
     maincontent.append(blogsSection)
 
     home.append(maincontent);

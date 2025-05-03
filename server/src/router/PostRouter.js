@@ -51,7 +51,6 @@ router.post("/comment", ValidateJWT, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send({ error: "Server error while fetching posts" });
-    
     }
 });
 
