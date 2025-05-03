@@ -60,6 +60,8 @@ export const RegisterSide = () => {
     container.id = 'register_container';
 
     const form = document.createElement('form');
+    const label = document.createElement('label');
+    label.textContent = 'Register';
 
     const usernameInput = createInput('text', 'username', 'Username');
     const emailInput = createInput('email', 'email', 'Email');
@@ -71,7 +73,7 @@ export const RegisterSide = () => {
         handleRegister(usernameInput, emailInput, passwordInput);
     });
 
-    form.append(usernameInput, emailInput, passwordInput, submitButton);
+    form.append(label,usernameInput, emailInput, passwordInput, submitButton);
     container.appendChild(form);
 
     // Already have an account section
@@ -94,12 +96,13 @@ export const RegisterSide = () => {
 
 export const LoginSide = () => {
 
-
     const container = document.createElement('div');
     container.className = 'register-container';
     container.id = 'register_container';
 
     const form = document.createElement('form');
+    const label = document.createElement('label');
+    label.textContent = 'LogIn';
 
     const emailInput = createInput('email', 'email', 'Email');
     const passwordInput = createInput('password', 'password', 'Password');
@@ -111,13 +114,13 @@ export const LoginSide = () => {
         handleLogIn( emailInput, passwordInput);
     });
 
-    form.append(emailInput, passwordInput, submitButton);
+    form.append(label,emailInput, passwordInput, submitButton);
     container.appendChild(form);
 
     // Already have an account section
     const RegisterSec = document.createElement('div');
     const RegisterLine = document.createElement('p');
-    RegisterLine.textContent = 'Register Now';
+    RegisterLine.textContent = 'Create New Account';
 
     const loginButton = createButton('Register');
     loginButton.addEventListener('click', () => {

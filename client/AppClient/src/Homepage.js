@@ -71,6 +71,7 @@ const searchbar = () => {
 const ProfileIcon = (UserName) => {
     const Profile = document.createElement("div");
     Profile.className = "profile-icon";
+    
     Profile.setAttribute('username', UserName);
     Profile.addEventListener('click', async () => {
         if (Profile.getAttribute('username') === UserInfo.UserName) {
