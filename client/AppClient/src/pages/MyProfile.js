@@ -7,6 +7,7 @@ export const MyProfile = () => {
   // Main container
   const page = document.createElement('div');
   page.className = 'my-profile-page';
+  page.id = "my_profile_page";
 
   // Navbar at the top
   const nav = navbar();

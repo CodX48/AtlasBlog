@@ -2,6 +2,8 @@ import { GetAllUsers } from "../../APIs/ApisServies.js";
 import { UserInfo } from '../../User.js'
 import { MyProfile } from '../pages/MyProfile.js';
 import { GetFriendProfile } from "../../APIs/ApisServies.js";
+let Users; 
+
 const logo = () => {
     const LogoElement = document.createElement("div");
     LogoElement.className = 'logo';

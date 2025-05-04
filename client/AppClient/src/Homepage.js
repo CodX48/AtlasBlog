@@ -4,7 +4,7 @@ import { MyProfile } from './pages/MyProfile.js';
 import { GetFriendProfile } from "../APIs/ApisServies.js";
 import { likeBlog } from "../APIs/ApisServies.js";
 let Users = [];
-let Filterd_Users;
+
 
 const logo = () => {
     const LogoElement = document.createElement("div");
