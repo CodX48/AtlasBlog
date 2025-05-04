@@ -1,7 +1,7 @@
 import { GetAllUsers } from "../../APIs/ApisServies.js";
 import { UserInfo } from '../../User.js'
 import { MyProfile } from '../pages/MyProfile.js';
-import { GetFriendProfile } from "../../APIs/ApisServies.js";
+import { GetFriendProfile, AddFriend } from "../../APIs/ApisServies.js";
 let Users; 
 
 const logo = () => {
@@ -51,9 +51,20 @@ const searchbar = () => {
                 }
                 filtered.forEach(u => {
                     let li = document.createElement('li');
-                    li.textContent = u.UserName;
+                    let p = document.createElement('p');
+                    p.textContent = u.UserName;
+
+                    let addFriend = document.createElement('button');
+                    addFriend.textContent = "Add Friend";
+
+                    addFriend.addEventListener('click', async () => {
+                        const res = await AddFriend({ FriendUserName: p.textContent });
+                        console.log(res);
+                    });
+                    li.append(p, addFriend);
                     userList.appendChild(li);
-                });
+            });
+
             } catch (error) {
                 console.error("Error: ", error);
             }
