@@ -2,6 +2,7 @@ import { GetAllUsers } from "../../APIs/ApisServies.js";
 import { UserInfo } from '../../User.js'
 import { MyProfile } from '../pages/MyProfile.js';
 import { GetFriendProfile, AddFriend } from "../../APIs/ApisServies.js";
+import { PostBtn } from "./PostBtn.js";
 let Users; 
 
 const logo = () => {
@@ -111,7 +112,9 @@ export const navbar = () => {
 
   const searchInput = searchbar();
   searchSection.appendChild(searchInput);
-  nav.appendChild(searchSection);
+    nav.appendChild(searchSection);
+    
+    nav.appendChild(PostBtn());
 
   const profile = ProfileIcon(UserInfo.UserName);
   nav.appendChild(profile);

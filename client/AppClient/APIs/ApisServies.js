@@ -1,4 +1,4 @@
-import { USERS_GET_ALL, token, USERS_REGISTER, VERIFY_USER, BLOGS_GET_FEED, USERS_GET_PROFILE, BLOGS_LIKE, USERS_LOGIN, USERS_ADD_FRIEND } from "./BasedApis.js";
+import { USERS_GET_ALL, token, USERS_REGISTER, VERIFY_USER, BLOGS_GET_FEED, USERS_GET_PROFILE, BLOGS_LIKE, USERS_LOGIN, USERS_ADD_FRIEND, BLOGS_POST } from "./BasedApis.js";
 
 export const GetAllUsers = async () => {
     try {
@@ -124,7 +124,6 @@ export const likeBlog = async ({ PostId }) => {
         console.error(error)
     }
 };
-
 export const AddFriend = async ({ FriendUserName }) => {
     try {
         const res = await fetch(USERS_ADD_FRIEND, {
@@ -133,15 +132,42 @@ export const AddFriend = async ({ FriendUserName }) => {
                 'Content-Type': 'application/json',
                 'authorization': `${token}`
             },
-            body: JSON.stringify({
-                "FriendUserName": `${FriendUserName}`
-            })
+            body: JSON.stringify({ "FriendUserName": FriendUserName })
         });
+
+        if (!res.ok) {
+            throw new Error(`Request failed with status ${res.status}`);
+        }
+
         const data = await res.json();
         return data;
     } catch (error) {
-        console.log(error);
+        console.error('AddFriend error:', error);
+        throw error; // rethrow if you want the caller to handle it
     }
-    
+};
+
+export const PostBlog =  async ({Content}) => {
+    try {
+        const res = await fetch(BLOGS_POST, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${token}`
+            },
+            body: JSON.stringify({ "Content": Content })
+        });
+
+         if (!res.ok) {
+            throw new Error(`Request failed with status ${res.status}`);
+         }
+        
+        const data = await res.json();
+        return data;
+
+    } catch (error) {
+        console.error('AddFriend error:', error);
+        throw error; // rethrow if you want the caller to handle it
+    }
 }
 

@@ -35,46 +35,27 @@ export const login = async ({ Email, Password }) => {
         return { data: {tokin:  generateJWT({Email,UserName: findUser.UserName}) , UserName:findUser.UserName}, status: 200 };
     };
 
-    return { data: {res: "Incorrect Email or password", status: 400 }};
+    return { data: { res: "Incorrect Email or password" }, status: 400 };
 };
+
 //the add fiend btn will search on the db and push to the user friend requist list my id then if he want he can add me which will take it from the this list and push it to my 
 export const AddFriendRequist = async ({ FriendUserName, MyUserName }) => {
     if (FriendUserName === MyUserName) {
-        return { data: { res: "You can not add yourself", status: 400 } };
+        return { data: { res: "You can not add yourself" }, status: 400 };
     }
 
     const FrinedAcc = await User.findOne({ UserName: FriendUserName });
     const MyAcc = await User.findOne({ UserName: MyUserName });
+    console.log(FrinedAcc);
 
     if (!FrinedAcc || !MyAcc) {
-        return { data: { res: "Something is wrong", status: 400 } };
-    }
+        return { data: { res: "Something is wrong" }, status: 400 };
+    };
 
-    // Check if friend already exists in the request list
-    const alreadyRequested = FrinedAcc.FriendRequests?.some(
-        req => req.UserName === MyUserName
-    );
+    MyAcc.Friends.push(FrinedAcc);
+    await MyAcc.save();
 
-    if (alreadyRequested) {
-        return { data: { res: "Friend request already sent", status: 409 } };
-    }
-
-    // Optional: check if they are already friends
-    const alreadyFriends = MyAcc.Friends?.some(
-        friend => friend.UserName === FriendUserName
-    );
-
-    if (alreadyFriends) {
-        return { data: { res: "Already friends", status: 409 } };
-    }
-
-    // Add the request to the target user's FriendRequests list
-    FrinedAcc.FriendRequests = FrinedAcc.FriendRequests || [];
-    FrinedAcc.FriendRequests.push({ UserName: MyUserName });
-
-    await FrinedAcc.save();
-
-    return { data: { res: "Friend request sent", status: 200 } };
+    return { data: { res: "Friend request sent" }, status: 200 };
 };
 
 export const GetUser = async ({ username }) => {
