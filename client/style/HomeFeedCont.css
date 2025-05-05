@@ -1,0 +1,66 @@
+.Feed-Home-Cont{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+.userhomeinfo-container{
+    width: 30%;
+    border: 2px solid #e2e2e2;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.userhomeinfo-container .profile-icon{
+    width: 8rem;
+    height: 8rem;
+    font-size: 5rem;
+}
+
+.userhomeinfo-moreinfo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Add-Comment-Feed{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.25rem;
+}
+
+.textCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    gap: 0.5rem;
+}
+.comment-feed-textarea{
+    height: 100%;
+    outline: none;
+    width: 100%;
+    resize: none;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.114);
+    padding: 0.5rem;
+    border-radius: 0.5rem  ;
+}
+
+.textCont .send-button{
+position: relative;
+margin: 0;
+padding: 0.5rem;
+right: 0;
+bottom: 0;
+}

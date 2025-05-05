@@ -9,6 +9,9 @@ const logo = () => {
     const LogoElement = document.createElement("div");
     LogoElement.className = 'logo';
     LogoElement.textContent = "AtlasBlog";
+    LogoElement.addEventListener('click', () => {
+        location.reload()
+    })
     return LogoElement;
 };
 

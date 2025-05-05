@@ -14,7 +14,7 @@ if (authHeader) {
   };
     setToken(authHeader);
     userinfo(user);
-  document.body.prepend(MyProfile());
+  document.body.prepend(await HomePage());
   } else {
     document.body.prepend(RegisterSide()); 
 };

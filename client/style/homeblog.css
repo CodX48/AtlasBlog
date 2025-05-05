@@ -1,0 +1,56 @@
+.blogs-container{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+}
+.blogs-container ul{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.blogs-container ul li{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #e2e2e2;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+.user-blog-info{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;   
+    gap: 1rem; 
+}
+.btm-bost-cont{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.post{
+    border: none;
+    width: 100%;
+}
+.reacts{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid #e2e2e2;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+}
+.reacts p{
+    padding: 0.25rem 1rem;
+    cursor: pointer;
+}
+.reacts p:hover{
+    color: #005B9F;
+}

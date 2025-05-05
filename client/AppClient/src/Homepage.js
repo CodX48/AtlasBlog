@@ -3,6 +3,8 @@ import { UserInfo } from '../User.js'
 import { MyProfile } from './pages/MyProfile.js';
 import { GetFriendProfile } from "../APIs/ApisServies.js";
 import { likeBlog } from "../APIs/ApisServies.js";
+import { navbar } from "./components/navbar.js";
+import { feeds_blogs } from "./components/feeds.js";
 let Users = [];
 
 
@@ -228,39 +230,19 @@ const userhomeinfo = () => {
     return UserHomeInfoCont;
 }
 
-export const HomePage = async (user) => {
-    //console.log(user)
+export const HomePage = async () => {
     const home = document.createElement('div');
     home.className = "home-page";
     home.id = "home_page";
-    home.append(NavigationBar(user.UserName));
-    const blogsSection = document.createElement('div');
-    blogsSection.style.width = "100%"
-    blogsSection.style.display = "flex"
-    blogsSection.style.justifyContent = "center"
-    blogsSection.style.alignItems = "center"
-    
-    const blogsDOM = await blogs({ UserName: user.UserName });
-    //blogsSection.append(PostBlog());
-    blogsSection.append(blogsDOM);
-    const maincontent = document.createElement('div');
-    maincontent.className = 'main-content';
-    maincontent.id = 'main_content';
-    
-    //friends list cont
-    const LeftMainCont = document.createElement('div');
-    LeftMainCont.style.width = '400px';
-    const label = document.createElement('label');
-    label.textContent = 'My Friends';
-    LeftMainCont.append(userhomeinfo());
-    LeftMainCont.append(label);
-    LeftMainCont.append(FriendsList());
-    LeftMainCont.append(PostBlog())
-    
-    maincontent.append(LeftMainCont);   
-    maincontent.append(blogsSection)
+    home.append(navbar());
+    const feedHomeCont = document.createElement('div');
+    feedHomeCont.className = 'Feed-Home-Cont';
+    feedHomeCont.id = 'Feed_Home_Cont';
 
-    home.append(maincontent);
+    feedHomeCont.append(userhomeinfo());
+    feedHomeCont.append(await feeds_blogs(UserInfo.UserName));
+    
+    home.append(feedHomeCont);
     return home;
 };
 
