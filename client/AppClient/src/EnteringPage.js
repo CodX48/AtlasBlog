@@ -31,6 +31,7 @@ async function handleRegister(usernameInput, emailInput, passwordInput) {
 
         console.log(res.tokin);
         addtoken(res.tokin);
+        location.reload();
     } catch (error) {
         console.error("Error:", error);
     }
@@ -49,6 +50,7 @@ async function handleLogIn(emailInput, passwordInput) {
 
         console.log(res.tokin);
         addtoken(res.tokin);
+        location.reload();
     } catch (error) {
         console.error("Error:", error);
     }
@@ -58,6 +60,14 @@ export const RegisterSide = () => {
     const container = document.createElement('div');
     container.className = 'register-container';
     container.id = 'register_container';
+
+    const outer = document.createElement('div');
+    outer.id = 'Register-outer';
+    outer.style.width = '100%';
+    outer.style.height = '100vh';
+    outer.style.display = 'flex';
+    outer.style.justifyContent = 'center';
+    outer.style.alignItems = 'center';
 
     const form = document.createElement('form');
     const label = document.createElement('label');
@@ -83,20 +93,28 @@ export const RegisterSide = () => {
 
     const loginButton = createButton('Log In');
     loginButton.addEventListener('click', () => {
-        document.getElementById('register_container').remove();
+        document.getElementById('Register-outer').remove();
         document.body.append(LoginSide());
         console.log('Redirect to login page'); // Replace with navigation logic
     });
 
     haveAccountSec.append(haveAccountLine, loginButton);
     container.appendChild(haveAccountSec);
-
-    return container;
+    outer.append(container);
+    return outer;
 };
 
 export const LoginSide = () => {
 
     const container = document.createElement('div');
+    const outer = document.createElement('div');
+    outer.id = 'Login-outer';
+    outer.style.width = '100%';
+    outer.style.height = '100vh';
+    outer.style.display = 'flex';
+    outer.style.justifyContent = 'center';
+    outer.style.alignItems = 'center';
+
     container.className = 'register-container';
     container.id = 'register_container';
 
@@ -124,15 +142,16 @@ export const LoginSide = () => {
 
     const loginButton = createButton('Register');
     loginButton.addEventListener('click', () => {
-        document.getElementById('register_container').remove();
+        document.getElementById('Login-outer').remove();
         document.body.append(RegisterSide());
         console.log('Redirect to Register page'); // Replace with navigation logic
     });
 
     RegisterSec.append(RegisterLine, loginButton);
     container.appendChild(RegisterSec);
+    outer.append(container);
 
-    return container;
+    return outer;
 }
 
 

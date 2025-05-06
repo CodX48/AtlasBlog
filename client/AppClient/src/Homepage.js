@@ -5,6 +5,7 @@ import { GetFriendProfile } from "../APIs/ApisServies.js";
 import { likeBlog } from "../APIs/ApisServies.js";
 import { navbar } from "./components/navbar.js";
 import { feeds_blogs } from "./components/feeds.js";
+import {LogOutBtn} from './components/logOutBtn.js'
 let Users = [];
 
 
@@ -192,15 +193,6 @@ export const FriendsList = () => {
     return UsersList;
 };
 
-const PostBlog = () => {
-    const PostBlogSection = document.createElement('button');
-    PostBlogSection.className = 'PostBtn'
-    PostBlogSection.textContent = 'Post';
-    PostBlogSection.addEventListener('click', () => {
-        
-    })
-    return PostBlogSection;
-};
 const userhomeinfo = () => {
     const username = document.createElement('p');
     username.className = 'userhomeinfo-username';
@@ -238,9 +230,14 @@ export const HomePage = async () => {
     const feedHomeCont = document.createElement('div');
     feedHomeCont.className = 'Feed-Home-Cont';
     feedHomeCont.id = 'Feed_Home_Cont';
-
-    feedHomeCont.append(userhomeinfo());
-    feedHomeCont.append(await feeds_blogs(UserInfo.UserName));
+    const leftSideHomePage = document.createElement('div');
+    leftSideHomePage.style.display = "flex";
+    leftSideHomePage.style.justifyContent = "center";
+    leftSideHomePage.style.alignItems = "center";
+    leftSideHomePage.style.flexDirection = "column";
+    leftSideHomePage.style.width = "28%";
+    leftSideHomePage.append(userhomeinfo(),LogOutBtn());
+    feedHomeCont.append(leftSideHomePage,await feeds_blogs(UserInfo.UserName));
     
     home.append(feedHomeCont);
     return home;

@@ -1,6 +1,5 @@
-import { UserInfo } from '../../User.js';
+
 import { navbar } from "../components/navbar.js";
-import { sideList } from '../components/sidelist.js';
 import { MyInfo } from "../components/MyProfileInfo.js";
 
 export const MyProfile = () => {
@@ -15,11 +14,7 @@ export const MyProfile = () => {
 
   // Content layout container
   const layout = document.createElement('div');
-  layout.className = 'profile-layout ';
-
-  // Sidebar
-  const sidebar = sideList();
-  layout.appendChild(sidebar);
+  layout.className = 'profile-layout';
 
   // Main content area - MyInfo
   const content = document.createElement('div');

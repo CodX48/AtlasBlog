@@ -1,11 +1,11 @@
 .blogs-container{
+    width: 70%;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
-    width: 100%;
 }
 .blogs-container ul{
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,4 +51,17 @@
 }
 .react i:hover{
     color: #005B9F;
+}
+.Log-out{
+    margin-top: 2rem;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #E53E3E;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+.Log-out:hover{
+    background-color: #d22c2c;
 }

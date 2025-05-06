@@ -97,6 +97,7 @@ export function createPostsSection(UserInfo) {
     interactionSection.append(likeIcon, commentIcon, shareIcon);
 
     const liveComment = document.createElement("div");
+    liveComment.className = "liveComment";
     liveComment.style.width = "100%";
     liveComment.style.position = "relative"
 
