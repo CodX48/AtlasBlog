@@ -30,7 +30,7 @@ const GetPosts = async ({ UserName }) => {
       return { data: "Bad", status: 400 };
     }
     const friendsPosts = user.Friends.map(friend => ({
-    FriendName: friend.UserName,
+    UserName: friend.UserName,
     Posts: friend.Posts,
     }));
 

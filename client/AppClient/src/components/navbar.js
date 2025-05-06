@@ -96,7 +96,8 @@ export const ProfileIcon = (UserName) => {
             console.log(FriendPage);
         }
     });
-   const userChar = document.createElement('p');
+    const userChar = document.createElement('p');
+    console.log(UserName)
     userChar.textContent = UserName.split('')[0];
     Profile.append(userChar);
     return Profile;
@@ -118,7 +119,7 @@ export const navbar = () => {
     nav.appendChild(searchSection);
     
     nav.appendChild(PostBtn());
-
+    console.log(UserInfo)
   const profile = ProfileIcon(UserInfo.UserName);
   nav.appendChild(profile);
 

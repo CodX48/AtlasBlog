@@ -37,7 +37,7 @@ const CreatePost = () => {
     textarea.placeholder = "Blog it now";
 
     const sendbtn = document.createElement('i');
-    sendbtn.className = 'fas fa-paper-plane send-button'; // Font Awesome + custom class
+    sendbtn.className = 'fas fa-paper-plane send-button'; 
     sendbtn.id = 'send_button';
     sendbtn.addEventListener('click', async () => {
         if (textarea.value === '') {

@@ -37,20 +37,18 @@
     border: none;
     width: 100%;
 }
-.reacts{
+.react{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
-    gap: 0.5rem;
-    border: 2px solid #e2e2e2;
+    gap: 1rem;
     padding: 0.25rem;
     border-radius: 0.5rem;
 }
-.reacts p{
-    padding: 0.25rem 1rem;
+.react i{
     cursor: pointer;
 }
-.reacts p:hover{
+.react i:hover{
     color: #005B9F;
 }

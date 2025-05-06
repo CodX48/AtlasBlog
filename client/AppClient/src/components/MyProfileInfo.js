@@ -4,23 +4,25 @@ import { ProfileIcon } from './navbar.js';
 export const MyInfo = () => {
   const container = document.createElement("div");
   container.className = "my-info-container";
-  
 
-  // --- Main Info Section ---
+  const infoSection = createInfoSection(UserInfo);
+  const postsSection = createPostsSection(UserInfo);
+
+  container.appendChild(infoSection);
+  container.appendChild(postsSection);
+
+  return container;
+};
+
+function createInfoSection(UserInfo) {
   const infoSection = document.createElement("div");
   infoSection.className = "my-info";
 
-  // Profile Icon
   const profile = ProfileIcon(UserInfo.UserName);
-  infoSection.appendChild(profile);
-
-  // Username
   const userName = document.createElement("p");
   userName.className = "user-name";
   userName.textContent = UserInfo.UserName;
-  infoSection.appendChild(userName);
 
-  // Stats Section
   const stats = document.createElement("div");
   stats.className = "user-stats";
 
@@ -36,12 +38,13 @@ export const MyInfo = () => {
   saved.className = "stat-item";
   saved.textContent = `${UserInfo.Saved?.length || 0} Saved`;
 
-  stats.appendChild(friends);
-  stats.appendChild(posts);
-  stats.appendChild(saved);
-  infoSection.appendChild(stats);
-
-  // --- Posts Section ---
+  stats.append(friends, posts, saved);
+  infoSection.append(profile, userName, stats);
+  return infoSection;
+}
+ 
+export function createPostsSection(UserInfo) {
+  
   const postsSection = document.createElement("div");
   postsSection.className = "posts-section";
 
@@ -49,87 +52,79 @@ export const MyInfo = () => {
   postList.className = "post-list";
 
   if (UserInfo.Posts.length === 0) {
-    const emptyMsg = document.createElement("p");
-    emptyMsg.textContent = "You don't have any posts yet.";
-    postsSection.appendChild(emptyMsg);
+    return "";
   }
 
-  else {
-    UserInfo.Posts.forEach((post, index) => {
-const postcont = document.createElement('li');
-postcont.className = 'post';
+  UserInfo.Posts.forEach((post) => {
+    const postcont = document.createElement("li");
+    postcont.className = "post";
 
-// Top section (profile + date)
-const topSection = document.createElement('div');
-topSection.className = 'top-section';
+    const topSection = document.createElement("div");
+    topSection.className = "top-section";
 
-// Profile section
-const profileSection = document.createElement('div');
-profileSection.className = 'profile-section';
+    const profileSection = document.createElement("div");
+    profileSection.className = "profile-section";
 
-const username = document.createElement('span');
-username.className = 'username';
-username.textContent = UserInfo.UserName;
+    const username = document.createElement("span");
+    username.className = "username";
+    username.textContent = UserInfo.UserName;
 
-profileSection.appendChild(ProfileIcon(UserInfo.UserName));
-profileSection.appendChild(username);
+    profileSection.appendChild(ProfileIcon(UserInfo.UserName));
+    profileSection.appendChild(username);
 
-// Date element
-const date = document.createElement('span');
-date.className = 'date';
-date.textContent = getRelativeTime(post.Date); // Placeholder
+    const date = document.createElement("span");
+    date.className = "date";
+    date.textContent = getRelativeTime(post.Date);
 
-// Append profileSection and date to topSection
-topSection.appendChild(profileSection);
-topSection.appendChild(date);
+    topSection.append(profileSection, date);
 
-// Content section
-const content = document.createElement('div');
-content.className = 'content';
-content.textContent = post.Content;
-      
-// Interaction section
-const interactionSection = document.createElement('div');
-interactionSection.className = 'interactions';
+    const content = document.createElement("div");
+    content.className = "content";
+    content.textContent = post.Content;
 
-// Like icon (heart)
-const likeIcon = document.createElement('i');
-likeIcon.className = 'fas fa-heart like-icon'; // Font Awesome class
+    const interactionSection = document.createElement("div");
+    interactionSection.className = "interactions";
 
-// Comment icon (speech bubble)
-const commentIcon = document.createElement('i');
-commentIcon.className = 'fas fa-comment comment-icon';
+    const likeIcon = document.createElement("i");
+    likeIcon.className = "fas fa-heart like-icon";
 
-// Share icon (arrow)
-const shareIcon = document.createElement('i');
-shareIcon.className = 'fas fa-share share-icon';
+    const commentIcon = document.createElement("i");
+    commentIcon.className = "fas fa-comment comment-icon";
 
-interactionSection.appendChild(likeIcon);
-interactionSection.appendChild(commentIcon);
-interactionSection.appendChild(shareIcon);
+    const shareIcon = document.createElement("i");
+    shareIcon.className = "fas fa-share share-icon";
 
-// Live comment section
-const liveComment = document.createElement('div');
-liveComment.className = 'live-comment';
-liveComment.textContent = 'Live comments here...';
+    interactionSection.append(likeIcon, commentIcon, shareIcon);
 
-// Assemble post
-postcont.appendChild(topSection);
-postcont.appendChild(content);
-postcont.appendChild(interactionSection);
-postcont.appendChild(liveComment);
+    const liveComment = document.createElement("div");
+    liveComment.style.width = "100%";
+    liveComment.style.position = "relative"
 
-      postList.appendChild(postcont);
-    });
-    postsSection.appendChild(postList);
-  }
+    const textarea = document.createElement("textarea");
+    textarea.placeholder = "Live comments here...";
+    textarea.className = "Live-Comments-Area";
 
-  // Append both sections to main container
-  container.appendChild(infoSection);
-  container.appendChild(postsSection);
+    const sendbtn = document.createElement('i');
+        sendbtn.className = 'fas fa-paper-plane send-button'; 
+        sendbtn.id = 'send_button';
+        sendbtn.addEventListener('click', async () => {
+            if (textarea.value === '') {
+                return
+            }
+            const res = await PostBlog({Content: textarea.value});
+            console.log(res);
+            location.reload();
+        })
+    
+    liveComment.append(textarea,sendbtn);
 
-  return container;
-};
+    postcont.append(topSection, content, interactionSection, liveComment);
+    postList.appendChild(postcont);
+  });
+
+  postsSection.appendChild(postList);
+  return postsSection;
+}
 
 function getRelativeTime(isoDateString) {
   const now = new Date();
@@ -152,5 +147,3 @@ function getRelativeTime(isoDateString) {
   if (minutes > 0) return `${minutes}m`;
   return `${seconds}s`;
 }
-
-

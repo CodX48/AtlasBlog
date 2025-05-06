@@ -179,6 +179,10 @@ border: 2px #bdbdbd solid;
 border-radius: 0.5rem;
 padding: 1.5rem;
 }
+.content{
+    width: 100%;
+    padding: 2rem;
+}
 
 .top-section{
     width: 100%;
@@ -193,12 +197,26 @@ padding: 1.5rem;
     gap: 1rem;
 }
 .interactions{
+padding: 1rem;
+width: 100%;
 display: flex;
-justify-content: center;
+justify-content: start;
 align-items: center;
 gap: 1rem;
 }
+
 .interactions i{
     color: #18181bb9;
     font-size: 1.5 rem;
+    cursor: pointer;
+}
+.interactions i:hover{
+    color: #005B9F;
+}
+.Live-Comments-Area{
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 1rem;
+    resize: none;
 }

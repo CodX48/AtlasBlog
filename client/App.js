@@ -3,7 +3,6 @@ import { RegisterSide } from "./AppClient/src/EnteringPage.js";
 import { verifyUser } from "./AppClient/APIs/ApisServies.js";
 import { setToken} from "./AppClient/APIs/BasedApis.js";
 import { userinfo } from "./AppClient/User.js";
-import {MyProfile}from "./AppClient/src/pages/MyProfile.js"
 
  const authHeader = localStorage.getItem('authorization');
 if (authHeader) {
