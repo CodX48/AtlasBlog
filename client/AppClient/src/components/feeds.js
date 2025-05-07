@@ -8,8 +8,9 @@ export const feeds_blogs = async ({ UserName }) => {
     const BlogsContainer = document.createElement('div');
     BlogsContainer.className = 'blogs-container';
     const blogs = await GetBlogs({ UserName });
-    blogs.forEach(element => {
-        BlogsContainer.append(createPostsSection(element));
-    })
+    if (document.getElementById('posts_section')) {
+        document.getElementById('posts_section').remove();
+    }
+    BlogsContainer.append(createPostsSection(blogs));
     return BlogsContainer;
 };

@@ -20,7 +20,9 @@ const searchbar = () => {
     SearchBar.className = 'search-bar';
     SearchBar.name = "SearchInput";
     SearchBar.placeholder = "Search";
-   
+
+    let Users = [];
+
     SearchBar.addEventListener("click", () => {
         async function fetchUsers() {
             try {
@@ -35,51 +37,54 @@ const searchbar = () => {
     });
 
     SearchBar.addEventListener("input", () => {
-        function FilterdUsers() {
-            const existingList = document.getElementById('user_list');
-            if (existingList) {
-                existingList.remove(); 
-            }
-
-            const userList = document.createElement('ul');
-            userList.className = "user-list";
-            userList.id = "user_list"; 
-
-            try {
-                const filtered = Users.filter((user) => {
-                    
-                    return user.UserName.toLowerCase().includes(SearchBar.value.toLowerCase());
-                });
-                if (filtered.length === Users.length) {
-                    return;
-                }
-                filtered.forEach(u => {
-                    let li = document.createElement('li');
-                    let p = document.createElement('p');
-                    p.textContent = u.UserName;
-
-                    let addFriend = document.createElement('button');
-                    addFriend.textContent = "Add Friend";
-
-                    addFriend.addEventListener('click', async () => {
-                        const res = await AddFriend({ FriendUserName: p.textContent });
-                        console.log(res);
-                    });
-                    li.append(p, addFriend);
-                    userList.appendChild(li);
-            });
-
-            } catch (error) {
-                console.error("Error: ", error);
-            }
-
-            document.getElementById('SearchSection').append(userList);
+        const existingList = document.getElementById('user_list');
+        if (existingList) {
+            existingList.remove();
         }
-        FilterdUsers();
+
+        const userList = document.createElement('ul');
+        userList.className = "user-list";
+        userList.id = "user_list";
+
+        try {
+            const filtered = Users.filter(user =>
+                user.UserName.toLowerCase().includes(SearchBar.value.toLowerCase())
+            );
+
+            if (filtered.length === Users.length) return;
+
+            filtered.forEach(u => {
+    const li = document.createElement('li');
+
+    const p = document.createElement('p');
+    p.textContent = u.UserName;
+    li.appendChild(p);
+
+    if (!UserInfo.Friends.some(friend => friend.UserName === u.UserName)) {
+        const addFriend = document.createElement('button');
+        addFriend.textContent = "Add Friend";
+
+        addFriend.addEventListener('click', async () => {
+            const res = await AddFriend({ FriendUserName: u.UserName });
+            console.log(res);
+        });
+
+        li.appendChild(addFriend);
+    }
+    userList.appendChild(li);
+});
+
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+
+        document.getElementById('SearchSection').appendChild(userList);
     });
 
     return SearchBar;
 };
+
 
 export const ProfileIcon = (UserName) => {
     const Profile = document.createElement("div");

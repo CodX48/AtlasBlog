@@ -42,90 +42,108 @@ function createInfoSection(UserInfo) {
   infoSection.append(profile, userName, stats);
   return infoSection;
 }
- 
-export function createPostsSection(UserInfo) {
-  
+
+export function createPostsSection(UsersBlogs) {
   const postsSection = document.createElement("div");
   postsSection.className = "posts-section";
+  postsSection.id = "posts_section";
 
   const postList = document.createElement("ul");
   postList.className = "post-list";
 
-  if (UserInfo.Posts.length === 0) {
+  if (UsersBlogs.length === 0) {
     return "";
   }
-
-  UserInfo.Posts.forEach((post) => {
-    const postcont = document.createElement("li");
-    postcont.className = "post";
-
-    const topSection = document.createElement("div");
-    topSection.className = "top-section";
-
-    const profileSection = document.createElement("div");
-    profileSection.className = "profile-section";
-
-    const username = document.createElement("span");
-    username.className = "username";
-    username.textContent = UserInfo.UserName;
-
-    profileSection.appendChild(ProfileIcon(UserInfo.UserName));
-    profileSection.appendChild(username);
-
-    const date = document.createElement("span");
-    date.className = "date";
-    date.textContent = getRelativeTime(post.Date);
-
-    topSection.append(profileSection, date);
-
-    const content = document.createElement("div");
-    content.className = "content";
-    content.textContent = post.Content;
-
-    const interactionSection = document.createElement("div");
-    interactionSection.className = "interactions";
-
-    const likeIcon = document.createElement("i");
-    likeIcon.className = "fas fa-heart like-icon";
-
-    const commentIcon = document.createElement("i");
-    commentIcon.className = "fas fa-comment comment-icon";
-
-    const shareIcon = document.createElement("i");
-    shareIcon.className = "fas fa-share share-icon";
-
-    interactionSection.append(likeIcon, commentIcon, shareIcon);
-
-    const liveComment = document.createElement("div");
-    liveComment.className = "liveComment";
-    liveComment.style.width = "100%";
-    liveComment.style.position = "relative"
-
-    const textarea = document.createElement("textarea");
-    textarea.placeholder = "Live comments here...";
-    textarea.className = "Live-Comments-Area";
-
-    const sendbtn = document.createElement('i');
-        sendbtn.className = 'fas fa-paper-plane send-button'; 
-        sendbtn.id = 'send_button';
-        sendbtn.addEventListener('click', async () => {
-            if (textarea.value === '') {
-                return
-            }
-            const res = await PostBlog({Content: textarea.value});
-            console.log(res);
-            location.reload();
-        })
-    
-    liveComment.append(textarea,sendbtn);
-
-    postcont.append(topSection, content, interactionSection, liveComment);
-    postList.appendChild(postcont);
+  
+  if (typeof UsersBlogs === "object" && !Array.isArray(UsersBlogs)) {
+  UsersBlogs.Posts.forEach((post) => {
+    const postElement = createPostElement({ UserName: UsersBlogs.UserName }, post);
+    postList.appendChild(postElement);
   });
 
   postsSection.appendChild(postList);
   return postsSection;
 }
+
+  
+
+  UsersBlogs.forEach((User) => {
+    User.Posts.forEach((post) => {
+      const postElement = createPostElement(User, post);
+      postList.appendChild(postElement);
+    });
+  });
+
+  postsSection.appendChild(postList);
+  return postsSection;
+}
+
+function createPostElement(User, post) {
+  const postcont = document.createElement("li");
+  postcont.className = "post";
+
+  const topSection = document.createElement("div");
+  topSection.className = "top-section";
+
+  const profileSection = document.createElement("div");
+  profileSection.className = "profile-section";
+
+  const username = document.createElement("span");
+  username.className = "username";
+  username.textContent = User.UserName;
+
+  profileSection.appendChild(ProfileIcon(User.UserName));
+  profileSection.appendChild(username);
+
+  const date = document.createElement("span");
+  date.className = "date";
+  date.textContent = getRelativeTime(post.Date);
+
+  topSection.append(profileSection, date);
+
+  const content = document.createElement("div");
+  content.className = "content";
+  content.textContent = post.Content;
+
+  const interactionSection = document.createElement("div");
+  interactionSection.className = "interactions";
+
+  const likeIcon = document.createElement("i");
+  likeIcon.className = "fas fa-heart like-icon";
+
+  const commentIcon = document.createElement("i");
+  commentIcon.className = "fas fa-comment comment-icon";
+
+  const shareIcon = document.createElement("i");
+  shareIcon.className = "fas fa-share share-icon";
+
+  interactionSection.append(likeIcon, commentIcon, shareIcon);
+
+  const liveComment = document.createElement("div");
+  liveComment.className = "liveComment";
+  liveComment.style.width = "100%";
+  liveComment.style.position = "relative";
+
+  const textarea = document.createElement("textarea");
+  textarea.placeholder = "Live comments here...";
+  textarea.className = "Live-Comments-Area";
+
+  const sendbtn = document.createElement("i");
+  sendbtn.className = "fas fa-paper-plane send-button";
+  sendbtn.id = "send_button";
+  sendbtn.addEventListener("click", async () => {
+    if (textarea.value === "") {
+      return;
+    }
+    const res = await PostBlog({ Content: textarea.value });
+    location.reload();
+  });
+
+  liveComment.append(textarea, sendbtn);
+
+  postcont.append(topSection, content, interactionSection, liveComment);
+  return postcont;
+};
 
 function getRelativeTime(isoDateString) {
   const now = new Date();

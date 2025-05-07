@@ -236,7 +236,7 @@ export const HomePage = async () => {
     leftSideHomePage.style.alignItems = "center";
     leftSideHomePage.style.flexDirection = "column";
     leftSideHomePage.style.width = "28%";
-    leftSideHomePage.append(userhomeinfo(),LogOutBtn());
+    leftSideHomePage.append(userhomeinfo(), LogOutBtn());
     feedHomeCont.append(leftSideHomePage,await feeds_blogs(UserInfo.UserName));
     
     home.append(feedHomeCont);
