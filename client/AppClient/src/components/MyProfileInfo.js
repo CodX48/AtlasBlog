@@ -59,12 +59,12 @@ export function createPostsSection(UsersBlogs) {
   UsersBlogs.Posts.forEach((post) => {
     const postElement = createPostElement({ UserName: UsersBlogs.UserName }, post);
     postList.appendChild(postElement);
+    
   });
 
   postsSection.appendChild(postList);
   return postsSection;
-}
-
+  }
   
 
   UsersBlogs.forEach((User) => {

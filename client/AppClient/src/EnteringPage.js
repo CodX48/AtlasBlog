@@ -20,22 +20,34 @@ function createButton(text, type = 'button') {
 
 // Handles form submission
 async function handleRegister(usernameInput, emailInput, passwordInput) {
+    console.log("hello");
+
     try {
         const res = await register({
             UserName: usernameInput.value,
             Email: emailInput.value,
             Password: passwordInput.value
         });
-
-        if (!res) return;
-
-        console.log(res.tokin);
+        console.log(res);
         addtoken(res.tokin);
         location.reload();
     } catch (error) {
-        console.error("Error:", error);
+
+        if (document.getElementById('invalid_input')) {
+            document.getElementById('invalid_input').textContent = error.message;
+            return;
+        }
+        const errorMsg = document.createElement('p');
+        errorMsg.id = "invalid_input";
+        errorMsg.style.fontSize = '1rem';
+        errorMsg.style.color = 'red';
+        errorMsg.textContent = error.message || "Registration failed.";
+
+        // Append error after the form
+        const form = document.querySelector('form');
+        form.after(errorMsg);
     }
-};
+}
 
 
 // Handles form submission
@@ -45,7 +57,6 @@ async function handleLogIn(emailInput, passwordInput) {
             Email: emailInput.value,
             Password: passwordInput.value
         });
-
         if (!res) return;
 
         console.log(res.tokin);
@@ -80,6 +91,7 @@ export const RegisterSide = () => {
     const submitButton = createButton('Register', 'submit');
     submitButton.addEventListener('click', (e) => {
         e.preventDefault();
+        //console.log(usernameInput, emailInput, passwordInput);
         handleRegister(usernameInput, emailInput, passwordInput);
     });
 

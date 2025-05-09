@@ -30,17 +30,18 @@ router.get('/', ValidateJWT, async (req, res) => {
     }
 });
 
-router.post('/like', ValidateJWT ,async (req, res) => {
+router.post('/like', ValidateJWT, async (req, res) => {
     try {
         const { blogId } = req.body;
         const Email = req.user.Email;
         const respo = await likeBlog({ blogId, Email });
-    res.status(respo.status).send(respo.data);
+        res.status(respo.status).send(respo.data);
     } catch (error) {
         console.error(error);
         res.status(500).send({ error: "Server error while fetching posts" });
     }
 });
+
 router.post("/comment", ValidateJWT, async (req, res) => {
     try {
         const { blogId, comment } = req.body;

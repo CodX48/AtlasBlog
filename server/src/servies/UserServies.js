@@ -6,12 +6,47 @@ const generateJWT = (data) => {
     return jwt.sign(data, '3,2wUCn(bV>KOpmqG7>v|7fGBNam_|=T', { expiresIn: "24h" });
 }
 
+let invalid_username = function(input){
+        let rex = /^(?=.*\d)(?=.*[!@#$%^&*_])[a-z\d!@#$%^&*_]/;
+        return rex.test(input); 
+    }
+
+    let atlas_mail_maching = function(input){
+        let rex = /[0-9]+@st.atlas.edu.tr/ig;
+        return input.match(rex);
+    }
+
+    let checkpassword =function(input){
+        let rex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_])[A-Za-z\d!@#$%^&*_]{8,}$/;
+        return rex.test(input)
+    }
+
+
+
 export const register = async ({ UserName, Email, Password }) => {
+
+    if (!UserName || !Email || !Password) {
+        return { data: { mess: "all the inputs are required" }, status: 400 };
+    };
 
     const findUser = await User.findOne({ Email });
     if (findUser) {
         return { data: {mess: "User is already exist"}, status: 400 };
+    };
+    
+    if (!invalid_username(UserName)) {
+        return { data: { mess: "Username must have a number, a special character, and only lowercase letters or digits." }, status: 400 };
     }
+
+    if (!atlas_mail_maching(Email)) {
+         return { data: { mess: " Email must be a valid Atlas student email" }, status: 400 };
+    }
+
+    if (!checkpassword(Password)) {
+        return { data: { mess: "Password must be 8+ characters with an uppercase letter, number, and special character." }, status: 400 };
+    }
+
+
     const hashedpass = await bcrypt.hash(Password, 10);
     const user = new User({
         UserName,

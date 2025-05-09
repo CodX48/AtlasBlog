@@ -23,15 +23,15 @@ const Post = async ({ PosterEmail, Content }) => {
 //get the post for home page
 const GetPosts = async ({ UserName }) => {
   try {
-    const user = await User.findOne({ UserName })
-      .populate({ path: "Friends", populate: { path: "Posts", model: "Blogs"}});
+    const user = await User.findOne({ UserName }).populate({ path: "Friends", populate: { path: "Posts", model: "Blogs"}});
 
     if (!user) {
       return { data: "Bad", status: 400 };
     }
     const friendsPosts = user.Friends.map(friend => ({
-    UserName: friend.UserName,
-    Posts: friend.Posts,
+      UserName: friend.UserName,
+      Posts: friend.Posts,
+      Likes: friend.Likes,
     }));
 
     return { data: { FriendsPosts: friendsPosts }, status: 200 };
@@ -48,7 +48,7 @@ const likeBlog = async ({ blogId, Email }) => {
 
     if (!blog || !user) {
         return { data: "bad", status: 400 };
-    }
+  };
 
     const userIdStr = user._id.toString();
     const index = blog.Likes.findIndex(id => id.toString() === userIdStr);

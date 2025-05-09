@@ -1,6 +1,6 @@
 import { UserInfo } from "../../User.js";
 import { GetBlogs } from "../../APIs/ApisServies.js";
-import { createPostsSection} from "./MyProfileInfo.js"
+import { createPostsSection } from "./MyProfileInfo.js";
 const user = UserInfo;
 
 

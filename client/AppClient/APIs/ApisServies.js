@@ -17,24 +17,26 @@ export const GetAllUsers = async () => {
         throw error;
     }
 };
+
 export const register = async ({ UserName, Email, Password }) => {
-    console.log({ UserName, Email, Password });
     try {
         const res = await fetch(USERS_REGISTER, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                UserName,
-                Email,
-                Password
-            })
+            body: JSON.stringify({ UserName, Email, Password })
         });
+
         const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.mess || 'Registration failed');
+        }
+
         return data;
     } catch (error) {
-        console.error(error);
+        throw new Error(error.message || 'Network error during registration');
     }
 };
 
