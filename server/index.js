@@ -19,10 +19,6 @@ mongoose.connect("mongodb://localhost:27017/Blog")
 app.use('/users', UsersRouter);
 app.use('/blogs', BlogRouter);
 
-// app.get('/', (req, res) => {
-//   res.send('Welcome to the home page!');
-// });
-
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

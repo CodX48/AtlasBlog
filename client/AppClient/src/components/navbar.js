@@ -66,6 +66,7 @@ const searchbar = () => {
 
         addFriend.addEventListener('click', async () => {
             const res = await AddFriend({ FriendUserName: u.UserName });
+            location.reload();
             console.log(res);
         });
 

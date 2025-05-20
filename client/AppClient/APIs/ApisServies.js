@@ -143,6 +143,7 @@ export const AddFriend = async ({ FriendUserName }) => {
         }
 
         const data = await res.json();
+        location.reload();
         return data;
     } catch (error) {
         console.error('AddFriend error:', error);
