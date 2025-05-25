@@ -6,20 +6,20 @@ import { PostBtn } from "./PostBtn.js";
 let Users; 
 
 const logo = () => {
-    const LogoElement = document.createElement("div");
-    LogoElement.className = 'logo';
-    LogoElement.textContent = "AtlasBlog";
-    LogoElement.addEventListener('click', () => {
+        const LogoElement = document.createElement("div");
+        LogoElement.className = 'logo';
+        LogoElement.textContent = "AtlasBlog";
+        LogoElement.addEventListener('click', () => {
         location.reload()
     })
     return LogoElement;
 };
 
 const searchbar = () => {
-    const SearchBar = document.createElement("input");
-    SearchBar.className = 'search-bar';
-    SearchBar.name = "SearchInput";
-    SearchBar.placeholder = "Search";
+        const SearchBar = document.createElement("input");
+        SearchBar.className = 'search-bar';
+        SearchBar.name = "SearchInput";
+        SearchBar.placeholder = "Search";
 
     let Users = [];
 
@@ -37,28 +37,28 @@ const searchbar = () => {
     });
 
     SearchBar.addEventListener("input", () => {
-        const existingList = document.getElementById('user_list');
+            const existingList = document.getElementById('user_list');
         if (existingList) {
             existingList.remove();
         }
 
-        const userList = document.createElement('ul');
-        userList.className = "user-list";
-        userList.id = "user_list";
+            const userList = document.createElement('ul');
+            userList.className = "user-list";
+            userList.id = "user_list";
 
         try {
             const filtered = Users.filter(user =>
-                user.UserName.toLowerCase().includes(SearchBar.value.toLowerCase())
+            user.UserName.toLowerCase().includes(SearchBar.value.toLowerCase())
             );
 
             if (filtered.length === Users.length) return;
 
             filtered.forEach(u => {
-    const li = document.createElement('li');
+            const li = document.createElement('li');
 
-    const p = document.createElement('p');
-    p.textContent = u.UserName;
-    li.appendChild(p);
+            const p = document.createElement('p');
+            p.textContent = u.UserName;
+            li.appendChild(p);
 
     if (!UserInfo.Friends.some(friend => friend.UserName === u.UserName)) {
         const addFriend = document.createElement('button');
